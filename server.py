@@ -4,6 +4,7 @@ from http.server import ThreadingHTTPServer, BaseHTTPRequestHandler
 from urllib.parse import urlparse, parse_qs
 from pathlib import Path
 import json, random, string, time, uuid, mimetypes, traceback
+import os
 
 ROOT = Path(__file__).resolve().parent
 WEB = ROOT / "web"
@@ -364,7 +365,8 @@ class Handler(BaseHTTPRequestHandler):
     def log_message(self, fmt, *args): print("[%s] %s" % (self.log_date_time_string(), fmt % args))
 
 if __name__ == "__main__":
+    port = int(os.environ.get("PORT", "8000"))
     print("红十多人房间版 v3.1 已启动")
-    print("本机打开：http://127.0.0.1:8000")
-    print("局域网玩家打开：http://你的电脑IP:8000")
-    ThreadingHTTPServer(("0.0.0.0", 8000), Handler).serve_forever()
+    print(f"本机打开：http://127.0.0.1:{port}")
+    print(f"局域网玩家打开：http://你的电脑IP:{port}")
+    ThreadingHTTPServer(("0.0.0.0", port), Handler).serve_forever()
